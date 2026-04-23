@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Blog de BPsicologia — Artículos sobre bienestar emocional, ansiedad, relaciones y psicología práctica escritos por nuestro equipo de psicólogas en Zaragoza." />
+  <title>Blog | BPsicologia — Psicólogas en Zaragoza</title>
+  <link rel="canonical" href="https://www.bpsicologia.es/blog.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.bpsicologia.es/blog.html" />
+  <meta property="og:title" content="Blog | BPsicologia" />
+  <meta property="og:description" content="Artículos sobre bienestar emocional, ansiedad, relaciones y psicología práctica." />
+  <meta name="robots" content="index, follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --verde: #7a9e87;
+      --verde-oscuro: #4f7560;
+      --beige: #f5f0e8;
+      --beige-oscuro: #e8e0d0;
+      --texto: #2c2c2c;
+      --texto-suave: #6b6b6b;
+      --blanco: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Lato', sans-serif; color: var(--texto); background: var(--blanco); }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    /* PROGRESS BAR */
+    #progress-bar { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--verde), var(--verde-oscuro)); z-index: 9999; pointer-events: none; transition: width 0.1s; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(8px);
+      padding: 0.7rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 500;
+      box-shadow: 0 1px 16px rgba(0,0,0,0.08);
+    }
+    .logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+    .logo img { height: 44px; width: 44px; object-fit: cover; border-radius: 50%; border: 2px solid var(--verde); display: block; }
+    .logo-nombre { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--verde-oscuro); letter-spacing: 0.05em; text-transform: uppercase; }
+    .logo-nombre span { color: var(--verde); }
+
+    .hamburger {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+      cursor: pointer; padding: 0;
+      width: 46px; height: 46px;
+      background: var(--beige);
+      border: 1.5px solid var(--beige-oscuro);
+      border-radius: 12px;
+      z-index: 600; position: relative; flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .hamburger:hover { background: var(--beige-oscuro); }
+    .hamburger.open { background: var(--beige-oscuro); }
+    .hamburger span { display: block; width: 18px; height: 2px; background: var(--verde-oscuro); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+    .hamburger span:nth-child(2) { width: 14px; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); width: 18px; }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); width: 18px; }
+
+    #nav-overlay {
+      display: none; position: fixed;
+      top: 66px; right: 1.5rem;
+      width: 230px; background: var(--blanco);
+      z-index: 550; border-radius: 18px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+      overflow: hidden; transform-origin: top right;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    #nav-overlay.open { display: block; animation: dropIn 0.22s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes dropIn { from { opacity: 0; transform: scale(0.92) translateY(-10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    #nav-overlay a {
+      display: flex; align-items: center; gap: 0.7rem;
+      padding: 0.85rem 1.2rem; font-size: 0.9rem;
+      color: var(--texto); text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+    #nav-overlay a::before { content: ''; display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--beige-oscuro); flex-shrink: 0; transition: background 0.15s; }
+    #nav-overlay a:hover { background: var(--beige); color: var(--verde-oscuro); }
+    #nav-overlay a:hover::before { background: var(--verde); }
+    #nav-overlay .overlay-divider { height: 1px; background: var(--beige-oscuro); margin: 0.2rem 1.2rem; }
+    #nav-overlay .overlay-cta { display: block; margin: 0.6rem 1rem 1rem; background: var(--verde-oscuro); color: var(--blanco) !important; text-align: center; padding: 0.75rem; border-radius: 25px; font-weight: 600; font-size: 0.88rem; transition: background 0.2s; }
+    #nav-overlay .overlay-cta::before { display: none; }
+    #nav-overlay .overlay-cta:hover { background: var(--verde) !important; }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 8rem 2rem 4rem;
+      background: linear-gradient(135deg, #1a2f20 0%, #2d4a35 50%, #0f2018 100%);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, rgba(122,158,135,0.18) 0%, transparent 70%);
+    }
+    .page-header-content { position: relative; z-index: 1; }
+    .page-badge {
+      display: inline-block; background: rgba(255,255,255,0.12); color: var(--blanco);
+      border: 1px solid rgba(255,255,255,0.3); font-size: 0.72rem;
+      padding: 0.4rem 1.4rem; border-radius: 30px; margin-bottom: 1.5rem;
+      letter-spacing: 0.15em; text-transform: uppercase; backdrop-filter: blur(4px);
+    }
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      color: var(--blanco); line-height: 1.2; margin-bottom: 1rem;
+    }
+    .page-header p { font-size: 1.05rem; color: rgba(255,255,255,0.78); max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+    /* WAVE */
+    .wave { line-height: 0; margin-bottom: -2px; }
+    .wave svg { display: block; width: 100%; }
+
+    /* BLOG GRID */
+    .blog-section { padding: 4rem 2rem 5rem; background: var(--blanco); }
+    .blog-container { max-width: 1100px; margin: 0 auto; }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2.2rem;
+    }
+
+    /* BLOG CARD */
+    .blog-card {
+      background: var(--blanco);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--beige-oscuro);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-decoration: none;
+      color: inherit;
+      display: flex; flex-direction: column;
+    }
+    .blog-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.09); }
+
+    .blog-card-img {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover;
+      background: linear-gradient(135deg, var(--beige) 0%, var(--beige-oscuro) 100%);
+      display: block;
+      flex-shrink: 0;
+    }
+    .blog-card-body { padding: 1.6rem; display: flex; flex-direction: column; flex: 1; }
+    .blog-card-meta {
+      display: flex; align-items: center; gap: 0.8rem;
+      font-size: 0.78rem; color: var(--texto-suave);
+      letter-spacing: 0.04em; margin-bottom: 0.9rem;
+      text-transform: uppercase;
+    }
+    .blog-card-tag {
+      background: rgba(122,158,135,0.12); color: var(--verde-oscuro);
+      padding: 0.25rem 0.75rem; border-radius: 20px; font-weight: 600;
+      font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .blog-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--texto); line-height: 1.35;
+      margin-bottom: 0.75rem;
+    }
+    .blog-card p { font-size: 0.92rem; color: var(--texto-suave); line-height: 1.7; flex: 1; }
+    .blog-card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 1.4rem; padding-top: 1rem;
+      border-top: 1px solid var(--beige-oscuro);
+    }
+    .blog-card-author { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--texto-suave); }
+    .blog-card-author-dot { width: 28px; height: 28px; border-radius: 50%; background: var(--verde); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; }
+    .blog-card-read { font-size: 0.8rem; color: var(--verde-oscuro); font-weight: 600; white-space: nowrap; }
+
+    /* FEATURED CARD */
+    .blog-card.featured {
+      grid-column: 1 / -1;
+      flex-direction: row;
+    }
+    .blog-card.featured .blog-card-img {
+      width: 42%; aspect-ratio: unset; min-height: 320px; flex-shrink: 0;
+      object-fit: cover; display: block;
+    }
+    .blog-card.featured .blog-card-body { padding: 2.4rem; }
+    .blog-card.featured h2 { font-size: 1.7rem; margin-bottom: 1rem; }
+    .blog-card.featured p { font-size: 0.97rem; }
+
+    /* ARTICLE PAGE */
+    .article-wrap { display: none; }
+    .article-wrap.active { display: block; }
+    .blog-list-wrap { display: block; }
+    .blog-list-wrap.hidden { display: none; }
+
+    .article-page { max-width: 780px; margin: 0 auto; padding: 4rem 2rem 5rem; }
+    .article-back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: var(--verde-oscuro); font-size: 0.88rem; font-weight: 600;
+      text-decoration: none; margin-bottom: 2.5rem;
+      transition: gap 0.2s;
+      cursor: pointer; background: none; border: none; padding: 0;
+    }
+    .article-back:hover { gap: 0.8rem; }
+    .article-back svg { width: 16px; height: 16px; }
+
+    .article-header { margin-bottom: 2.5rem; }
+    .article-tag { display: inline-block; background: rgba(122,158,135,0.12); color: var(--verde-oscuro); padding: 0.3rem 0.9rem; border-radius: 20px; font-weight: 600; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.2rem; }
+    .article-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25; color: var(--texto); margin-bottom: 1rem; }
+    .article-meta { display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; color: var(--texto-suave); flex-wrap: wrap; }
+    .article-meta-author { display: flex; align-items: center; gap: 0.5rem; }
+    .article-meta-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--verde); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem; font-weight: 700; }
+    .article-meta-sep { color: var(--beige-oscuro); }
+
+    .article-hero-img {
+      width: 100%; border-radius: 16px; aspect-ratio: 16/9;
+      object-fit: cover;
+      margin-bottom: 2.5rem;
+      display: block;
+    }
+
+    .article-body { line-height: 1.85; color: var(--texto); }
+    .article-body h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; color: var(--verde-oscuro);
+      margin: 2.5rem 0 1rem;
+    }
+    .article-body h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--texto); margin: 1.8rem 0 0.6rem; }
+    .article-body p { font-size: 1rem; margin-bottom: 1.3rem; }
+    .article-body ul, .article-body ol { padding-left: 1.6rem; margin-bottom: 1.3rem; }
+    .article-body li { font-size: 1rem; margin-bottom: 0.5rem; line-height: 1.7; }
+    .article-body strong { color: var(--texto); font-weight: 600; }
+
+    .article-quote {
+      border-left: 3px solid var(--verde);
+      padding: 1.2rem 1.5rem;
+      margin: 2rem 0;
+      background: var(--beige);
+      border-radius: 0 12px 12px 0;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--verde-oscuro);
+      line-height: 1.6;
+    }
+
+    .article-callout {
+      background: rgba(122,158,135,0.1);
+      border: 1px solid rgba(122,158,135,0.25);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+    .article-callout strong { color: var(--verde-oscuro); display: block; margin-bottom: 0.5rem; font-size: 0.95rem; letter-spacing: 0.03em; }
+    .article-callout p { margin-bottom: 0; font-size: 0.95rem; color: var(--texto-suave); }
+
+    .article-footer-cta {
+      margin-top: 3.5rem;
+      background: linear-gradient(135deg, #1a2f20 0%, #2d4a35 100%);
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      color: var(--blanco);
+    }
+    .article-footer-cta h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.8rem; }
+    .article-footer-cta p { color: rgba(255,255,255,0.78); font-size: 0.97rem; margin-bottom: 1.5rem; }
+    .article-footer-cta a {
+      display: inline-block; background: var(--blanco); color: var(--verde-oscuro);
+      padding: 0.85rem 2rem; border-radius: 30px; text-decoration: none;
+      font-weight: 700; font-size: 0.95rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .article-footer-cta a:hover { background: var(--beige); transform: translateY(-2px); }
+
+    /* FADE IN */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* WHATSAPP */
+    .whatsapp-float {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--blanco); width: 58px; height: 58px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+      z-index: 200; transition: transform 0.2s, box-shadow 0.2s;
+      border: 1.5px solid rgba(0,0,0,0.06);
+    }
+    .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 8px 28px rgba(0,0,0,0.22); }
+    .whatsapp-float svg { width: 34px; height: 34px; }
+
+    /* BACK TO TOP */
+    #back-to-top {
+      position: fixed; bottom: 6.5rem; right: 2rem;
+      width: 44px; height: 44px; background: var(--verde-oscuro); color: var(--blanco);
+      border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; opacity: 0; transform: translateY(10px);
+      transition: opacity 0.3s, transform 0.3s, background 0.2s;
+      z-index: 199; box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    }
+    #back-to-top.visible { opacity: 1; transform: translateY(0); }
+    #back-to-top:hover { background: var(--verde); }
+
+    /* FOOTER */
+    footer { background: linear-gradient(135deg, #2a3d30 0%, var(--verde-oscuro) 100%); color: rgba(255,255,255,0.8); text-align: center; padding: 3rem 2rem; font-size: 0.88rem; }
+    footer strong { color: var(--blanco); }
+    footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+    footer a:hover { color: var(--blanco); }
+
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--verde); outline-offset: 3px; border-radius: 4px; }
+
+    @media (max-width: 768px) {
+      .blog-card.featured { flex-direction: column; }
+      .blog-card.featured .blog-card-img { width: 100%; min-height: 200px; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .article-page { padding: 3rem 1.2rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<header>
+  <nav aria-label="Navegación principal">
+    <a class="logo" href="index.html">
+      <img src="data:image/jpeg;base64,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" alt="BPsicologia" width="48" height="48" />
+      <span class="logo-nombre">B<span>Psicologia</span></span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<div id="nav-overlay">
+  <a href="index.html">Inicio</a>
+  <a href="index.html#enfoque">Nuestro enfoque</a>
+  <a href="index.html#servicios">Servicios</a>
+  <a href="index.html#equipo">Equipo</a>
+  <div class="overlay-divider"></div>
+  <a href="blog.html">Blog</a>
+  <a href="index.html#contacto" class="overlay-cta">Pedir cita</a>
+</div>
+
+<!-- ============================================================ -->
+<!-- BLOG LIST VIEW -->
+<!-- ============================================================ -->
+<div class="blog-list-wrap" id="blogList">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-header-content">
+      <span class="page-badge">Blog</span>
+      <h1>Bienestar que se entiende</h1>
+      <p>Artículos escritos por nuestro equipo para ayudarte a comprender tu mente y tu emociones con claridad.</p>
+    </div>
+  </div>
+  <div class="wave" aria-hidden="true"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" style="height:70px"><path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#ffffff"/></svg></div>
+
+  <!-- GRID -->
+  <section class="blog-section">
+    <div class="blog-container">
+      <div class="blog-grid">
+
+        <!-- ARTÍCULO DESTACADO -->
+        <a class="blog-card featured fade-in" href="#" onclick="mostrarArticulo(event, 'ansiedad')">
+          <img class="blog-card-img" src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=800&q=80&fit=crop" alt="Sesión de terapia psicológica" loading="lazy" />
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-card-tag">Ansiedad</span>
+              <span>·</span>
+              <span>Abril 2025</span>
+              <span>·</span>
+              <span>8 min lectura</span>
+            </div>
+            <h2>Ansiedad: qué es realmente, por qué aparece y qué puedes hacer</h2>
+            <p>La ansiedad no es un defecto de carácter ni una señal de debilidad. Es una respuesta del sistema nervioso que en algún momento cumplió una función protectora — y que a veces se dispara más de lo necesario. En este artículo te explicamos qué está pasando en tu cuerpo y en tu mente, y qué herramientas existen para recuperar el equilibrio.</p>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <div class="blog-card-author-dot">PL</div>
+                <span>Patricia Labarias</span>
+              </div>
+              <span class="blog-card-read">Leer artículo →</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- PLACEHOLDER CARD 2 -->
+        <div class="blog-card fade-in" style="cursor:default; opacity:0.6; pointer-events:none;">
+          <img class="blog-card-img" src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&q=80&fit=crop" alt="Comunicación en pareja" loading="lazy" style="opacity:0.55;" />
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-card-tag">Pareja</span>
+              <span>·</span>
+              <span>Próximamente</span>
+            </div>
+            <h2>Cómo mejorar la comunicación en pareja sin discutir</h2>
+            <p>Herramientas prácticas para expresar lo que sientes sin que se convierta en conflicto.</p>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <div class="blog-card-author-dot" style="background:var(--verde-oscuro);">BG</div>
+                <span>Blanca Gracia</span>
+              </div>
+              <span class="blog-card-read">Próximamente</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PLACEHOLDER CARD 3 -->
+        <div class="blog-card fade-in" style="cursor:default; opacity:0.6; pointer-events:none;">
+          <img class="blog-card-img" src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=800&q=80&fit=crop" alt="Autoestima y bienestar emocional" loading="lazy" style="opacity:0.55;" />
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="blog-card-tag">Autoestima</span>
+              <span>·</span>
+              <span>Próximamente</span>
+            </div>
+            <h2>El crítico interior: cómo dejar de sabotearte a ti mismo</h2>
+            <p>Reconocer la voz autocrítica es el primer paso para no dejar que dirija tu vida.</p>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <div class="blog-card-author-dot" style="background:#8a7a6a;">PF</div>
+                <span>Paula Falco</span>
+              </div>
+              <span class="blog-card-read">Próximamente</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div><!-- /blog-list-wrap -->
+
+
+<!-- ============================================================ -->
+<!-- ARTICLE VIEW: ANSIEDAD -->
+<!-- ============================================================ -->
+<div class="article-wrap" id="articulo-ansiedad">
+
+  <div class="page-header" style="padding: 6rem 2rem 3rem;">
+    <div class="page-header-content">
+      <span class="page-badge">Ansiedad</span>
+    </div>
+  </div>
+
+  <div class="article-page">
+    <button class="article-back" onclick="volverBlog()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Volver al blog
+    </button>
+
+    <div class="article-header">
+      <span class="article-tag">Ansiedad · 8 min lectura</span>
+      <h1>Ansiedad: qué es realmente, por qué aparece y qué puedes hacer</h1>
+      <div class="article-meta">
+        <div class="article-meta-author">
+          <div class="article-meta-dot">PL</div>
+          <span><strong>Patricia Labarias</strong> — Psicóloga General Sanitaria</span>
+        </div>
+        <span class="article-meta-sep">·</span>
+        <span>Abril 2025</span>
+      </div>
+    </div>
+
+    <img class="article-hero-img" src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1200&q=80&fit=crop" alt="Psicóloga en consulta escuchando a una paciente" />
+
+    <div class="article-body">
+
+      <p>Si has llegado aquí buscando entender qué te pasa, ya has dado un paso importante. La ansiedad es una de las consultas más frecuentes en nuestra consulta — y también una de las más malentendidas.</p>
+
+      <p>Este artículo no pretende darte una lista de consejos rápidos. Pretende ayudarte a <strong>entender qué está pasando realmente</strong> para que puedas relacionarte de otra manera con lo que sientes.</p>
+
+      <h2>¿Qué es la ansiedad?</h2>
+
+      <p>La ansiedad es una respuesta del sistema nervioso diseñada para protegerte. Cuando tu cerebro detecta una amenaza — real o percibida — activa una cadena de reacciones: el corazón se acelera, los músculos se tensan, la respiración se vuelve más superficial. Todo eso tiene un propósito: preparar tu cuerpo para luchar o huir.</p>
+
+      <p>El problema es que ese sistema, tan útil frente a un peligro real, puede activarse también ante una reunión de trabajo, un correo sin responder, o simplemente la incertidumbre del futuro.</p>
+
+      <div class="article-quote">
+        La ansiedad no es un defecto de carácter. Es una alarma que, en algún momento, aprendió a dispararse demasiado a menudo.
+      </div>
+
+      <h2>¿Por qué me pasa a mí?</h2>
+
+      <p>No hay una única causa. La ansiedad suele aparecer por una combinación de factores:</p>
+
+      <ul>
+        <li><strong>Biológicos:</strong> algunas personas tienen un sistema nervioso más sensible por naturaleza o genética.</li>
+        <li><strong>Aprendidos:</strong> si creciste en un entorno donde el peligro (físico, emocional o relacional) era frecuente, tu cerebro aprendió a estar alerta.</li>
+        <li><strong>Situacionales:</strong> etapas de mucha demanda, cambios vitales importantes, pérdidas o conflictos sostenidos en el tiempo.</li>
+        <li><strong>Cognitivos:</strong> ciertos patrones de pensamiento — la catastrofización, la sobreexigencia, la intolerancia a la incertidumbre — alimentan el ciclo de la ansiedad.</li>
+      </ul>
+
+      <h2>Las señales que a veces no reconocemos</h2>
+
+      <p>La ansiedad no siempre aparece como "nervios". A veces se manifiesta de formas menos evidentes:</p>
+
+      <ul>
+        <li>Tensión muscular crónica (especialmente en cuello, mandíbula y hombros)</li>
+        <li>Dificultad para conciliar el sueño o sueño poco reparador</li>
+        <li>Irritabilidad o impaciencia sin motivo aparente</li>
+        <li>Sensación de que algo malo va a pasar</li>
+        <li>Evitar situaciones que antes no suponían problema</li>
+        <li>Problemas digestivos sin causa médica</li>
+      </ul>
+
+      <div class="article-callout">
+        <strong>¿Lo sabías?</strong>
+        <p>El intestino tiene más de 100 millones de neuronas y está directamente conectado con el cerebro. Por eso la ansiedad se siente tan a menudo "en el estómago".</p>
+      </div>
+
+      <h2>Qué no ayuda (aunque parezca que sí)</h2>
+
+      <p>Uno de los errores más comunes cuando tenemos ansiedad es intentar <strong>evitar</strong> todo lo que la provoca. A corto plazo, funciona: nos sentimos aliviados. Pero a largo plazo, el cerebro aprende que eso era peligroso de verdad y la ansiedad se hace más grande.</p>
+
+      <p>Tampoco ayuda la estrategia de "pensar en otra cosa" o "no darle vueltas". La supresión del pensamiento suele hacer que ese pensamiento aparezca con más fuerza — es el famoso efecto del oso polar: intenta no pensar en uno ahora mismo.</p>
+
+      <h2>Qué sí funciona</h2>
+
+      <p>La buena noticia es que la ansiedad responde muy bien al tratamiento psicológico. Las intervenciones con más evidencia científica incluyen:</p>
+
+      <ul>
+        <li><strong>Terapia Cognitivo-Conductual (TCC):</strong> trabaja directamente los patrones de pensamiento y las conductas de evitación.</li>
+        <li><strong>Terapias de tercera generación</strong> como ACT (Terapia de Aceptación y Compromiso): en lugar de luchar contra la ansiedad, cambian la relación que tienes con ella.</li>
+        <li><strong>Técnicas de regulación fisiológica:</strong> respiración diafragmática, relajación muscular progresiva, exposición gradual.</li>
+        <li><strong>Mindfulness:</strong> no como técnica de relajación, sino como práctica de atención plena que rompe el piloto automático.</li>
+      </ul>
+
+      <p>No existe una fórmula única. La psicología trabaja contigo, no sobre ti: el objetivo es encontrar qué está manteniendo tu ansiedad y construir herramientas que encajen con tu vida real.</p>
+
+      <h2>¿Cuándo pedir ayuda?</h2>
+
+      <p>Cuando la ansiedad empieza a interferir en tu trabajo, tus relaciones o tu calidad de vida — no hace falta esperar a que sea "suficientemente grave". Cuanto antes se aborde, más sencillo es el proceso.</p>
+
+      <p>Si reconoces en este artículo algo de lo que te pasa, hablar con una psicóloga puede ser el siguiente paso. No para que te "arreglen", sino para entender qué está pasando y tener acompañamiento real en el proceso.</p>
+
+    </div><!-- /article-body -->
+
+    <div class="article-footer-cta">
+      <h3>¿Te identificas con algo de esto?</h3>
+      <p>Podemos ayudarte a entender qué está pasando y a encontrar tu camino. Primera consulta sin compromiso.</p>
+      <a href="index.html#contacto">Pedir cita →</a>
+    </div>
+
+  </div><!-- /article-page -->
+</div><!-- /articulo-ansiedad -->
+
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/34648138232" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+    <circle cx="24" cy="24" r="24" fill="#25D366"/>
+    <path d="M34.5 13.5C32.1 11.1 28.9 9.8 25.5 9.8C18.5 9.8 12.8 15.5 12.8 22.5C12.8 24.8 13.4 27 14.6 28.9L12.7 35.3L19.3 33.4C21.1 34.5 23.3 35.1 25.5 35.1C32.5 35.1 38.2 29.4 38.2 22.4C38.2 19 36.9 15.9 34.5 13.5ZM25.5 33C23.5 33 21.6 32.4 19.9 31.4L19.5 31.1L15.6 32.2L16.7 28.4L16.4 28C15.3 26.2 14.7 24.4 14.7 22.5C14.7 16.6 19.6 11.7 25.5 11.7C28.4 11.7 31.1 12.8 33.1 14.9C35.1 16.9 36.3 19.6 36.3 22.5C36.3 28.3 31.4 33 25.5 33ZM31.4 25.1C31.1 24.9 29.6 24.2 29.3 24.1C29 24 28.8 23.9 28.6 24.2C28.4 24.5 27.9 25.1 27.7 25.4C27.5 25.6 27.3 25.6 27 25.5C25.2 24.6 24 23.9 22.8 21.9C22.5 21.4 23.1 21.4 23.6 20.5C23.7 20.3 23.6 20.1 23.6 19.9C23.5 19.7 23 18.2 22.7 17.6C22.5 17 22.2 17.1 22 17.1C21.8 17.1 21.6 17.1 21.4 17.1C21.2 17.1 20.8 17.2 20.5 17.5C20.2 17.8 19.4 18.6 19.4 20.1C19.4 21.6 20.5 23 20.7 23.3C20.9 23.5 22.9 26.6 26 27.9C28.1 28.8 28.9 28.9 29.9 28.7C30.5 28.6 31.7 27.9 32 27.1C32.3 26.3 32.3 25.6 32.2 25.5C32.1 25.3 31.8 25.2 31.4 25.1Z" fill="white"/>
+  </svg>
+</a>
+
+<!-- BACK TO TOP -->
+<button id="back-to-top" aria-label="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>BPsicologia</strong></p>
+  <address style="font-style:normal;margin-top:0.5rem;font-size:0.88rem;color:rgba(255,255,255,0.8);">
+    <span aria-hidden="true">📍</span> P.º de la Independencia 6, Entresuelo 3, Zaragoza
+    &nbsp;|&nbsp;
+    <a href="tel:+34648138232"><span aria-hidden="true">📞</span> 648 138 232</a>
+    &nbsp;|&nbsp;
+    <a href="mailto:info@bpsicologia.es"><span aria-hidden="true">✉️</span> info@bpsicologia.es</a>
+  </address>
+  <p style="margin-top:1rem;font-size:0.8rem;">
+    © 2025 BPsicologia. Todos los derechos reservados.
+    &nbsp;·&nbsp;
+    <a href="privacidad.html">Política de privacidad</a>
+  </p>
+</footer>
+
+<script>
+  // NAV
+  const hamburger = document.getElementById('hamburger');
+  const navOverlay = document.getElementById('nav-overlay');
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    navOverlay.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.setAttribute('aria-label', 'Abrir menú');
+  }
+  hamburger.addEventListener('click', () => {
+    const isOpen = !hamburger.classList.contains('open');
+    hamburger.classList.toggle('open', isOpen);
+    navOverlay.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+    hamburger.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+  });
+  document.addEventListener('click', e => {
+    if (navOverlay.classList.contains('open') && !navOverlay.contains(e.target) && !hamburger.contains(e.target)) closeMenu();
+  });
+
+  // PROGRESS BAR + BACK TO TOP
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const bar = document.getElementById('progress-bar');
+    bar.style.width = (scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
+    document.getElementById('back-to-top').classList.toggle('visible', scrollY > 400);
+  });
+
+  // FADE IN
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const fadeObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  fadeEls.forEach(el => fadeObs.observe(el));
+
+  // ARTICLE NAVIGATION
+  function mostrarArticulo(e, id) {
+    e.preventDefault();
+    document.getElementById('blogList').classList.add('hidden');
+    document.getElementById('articulo-' + id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function volverBlog() {
+    document.querySelectorAll('.article-wrap').forEach(el => el.classList.remove('active'));
+    document.getElementById('blogList').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
